@@ -1,9 +1,12 @@
+require 'stringio'
+$stderr = StringIO.new
 require 'parser/current'
+$stderr = STDERR
 
 def traverse(node, detector)
   detector.__send__(:"on_#{node.type}", node)
   node.children.each do |child|
-    traverse(child, detector) if child.is_a?(Parser::AST::Node)   
+    traverse(child, detector) if child.is_a?(Parser::AST::Node)
   end
 end
 
