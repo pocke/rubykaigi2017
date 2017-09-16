@@ -3,18 +3,18 @@ $stderr = StringIO.new
 require 'parser/current'
 $stderr = STDERR
 
-def traverse(node, detector)
-  detector.__send__(:"on_#{node.type}", node)
+def traverse(node, visitor)
+  visitor.__send__(:"on_#{node.type}", node)
   node.children.each do |child|
-    traverse(child, detector) if child.is_a?(Parser::AST::Node)
+    traverse(child, visitor) if child.is_a?(Parser::AST::Node)
   end
 end
 
-class Detector
+class Visitor
   def on_if(node)
     cond = node.children.first
-    if cond.type == :str
-      warn "Do not use a String literal in condition!!! (#{cond.loc.line}:#{cond.loc.column})"
+    if cond.type == :int
+      warn "Do not use an int literal in condition!!! (#{cond.loc.line}:#{cond.loc.column})"
     end
   end
 
@@ -28,4 +28,4 @@ class Detector
 end
 
 ast = Parser::CurrentRuby.parse(ARGF.read)
-traverse(ast, Detector.new)
+traverse(ast, Visitor.new)

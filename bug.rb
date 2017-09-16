@@ -1,3 +1,3 @@
-if 'str'
+if 1
   do_something
 end
