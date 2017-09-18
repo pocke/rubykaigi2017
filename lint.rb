@@ -27,5 +27,5 @@ class Visitor
   end
 end
 
-ast = Parser::CurrentRuby.parse(ARGF.read)
+ast = Parser::CurrentRuby.parse_file(ARGV.first)
 traverse(ast, Visitor.new)
