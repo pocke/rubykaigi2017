@@ -1,7 +1,4 @@
-require 'stringio'
-$stderr = StringIO.new
-require 'parser/current'
-$stderr = STDERR
+require 'parser/ruby24'
 
 def traverse(node, visitor)
   visitor.__send__(:"on_#{node.type}", node)
@@ -27,5 +24,5 @@ class Visitor
   end
 end
 
-ast = Parser::CurrentRuby.parse_file(ARGV.first)
+ast = Parser::Ruby24.parse_file(ARGV.first)
 traverse(ast, Visitor.new)
