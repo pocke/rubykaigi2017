@@ -1,3 +1,3 @@
 if 1
-  do_something
+  p 'Hello'
 end
